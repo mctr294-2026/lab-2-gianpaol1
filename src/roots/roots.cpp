@@ -104,24 +104,24 @@ bool secant(std::function <double(double)> f, double a, double b, double c, doub
     const double tolerance = 1e-6;
     const int Max_Iter = 1e6;
     
-    double x_old = c+0.1; // first initial guess
-    double x_current = c; // second initial guess
+    double x0 = c; // second initial guess
+    double x1 = c+0.1; // first initial guess
 
     if(f(a) * f(b) > 0){
         return false;
     }
     for(int i = 0; i < Max_Iter; i++){
-        if (std::fabs((f(x_current) - f(x_old))) < tolerance){ // avoid division by zero
+        if (std::fabs((f(x0) - f(x1))) < tolerance){ // avoid division by zero
             return false; 
         }
-        double x_new = x_current - f(x_current)*((x_current - x_old)/(f(x_current) - f(x_old)));
+        double x_new = x0 - f(x0)*((x0 - x1)/(f(x0) - f(x1)));
         if (std::fabs(f(x_new)) < tolerance){
             *root = x_new;
             return true;
         }
         else {
-             x_old = x_current;
-            x_current = x_new;
+             x1 = x0;
+            x0 = x_new;
         }
     }
     return false; 
